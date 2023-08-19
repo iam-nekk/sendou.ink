@@ -3,7 +3,78 @@ import { Main } from "~/components/Main";
 import { makeTitle } from "~/utils/strings";
 
 export const meta: V2_MetaFunction = () => {
-  return [{ title: makeTitle("SendouQ Rules") }];
+  let description = `
+Each team is allowed one replay per set due to a team member
+disconnecting. Replay is only possible if ALL of the following are true:
+
+  1. More than half was left in the clock (the clock was 2:30 or higher
+at the time of the DC)
+  2. The team without DC's objective counter had reached 30 at the
+time of the disconnect
+  3. Team with the disconnection stopped playing without delay
+  4. Disconnection was unintentional
+
+For the replay same weapons and gear must be used by both teams. The
+team who fails to do so loses the map. If players disconnect from both
+teams a replay can be played without using either team's one replay
+for the set (or even if there were no replays left to use from either
+team). Host disconnection can be replayed with the same conditions as
+above.
+
+After the DC replay has been used by the team, further DC's
+should be played out.
+
+Subs
+There are no subs. If a player is unavailable to play from either team
+then the set must be played with 3 players or forfeited.
+
+Canceling match
+Match can be canceled if both group owners agree. If the groups
+don't agree then the match should be played out.
+
+Alting
+You can only play with one account.
+
+Player eligibility
+Players banned by Splatoon Competitive Community Safety (@splatsafety)
+are not allowed to participate. Playing with banned players is not
+allowed.
+
+Time limits
+After a team has all their members in the lobby and has shared the
+password with the other team then that team has <b>15 minutes</b> to
+join the lobby. Failing to do so, the match can be started with the
+members currently in the room. If a player has problems connecting to
+the room it is advised to try switching the host.
+
+Spectators
+There can be spectators if both teams agree to it.
+
+Intentional losing
+
+Players are not allowed to intentionally lose a match. This includes
+(but is not limited to) tanking your own rank on purpose or boosting
+another player's/team's ranking.
+
+
+It's not allowed to spawncamp the enemy without pushing the
+objective provided it can't be considered a viable strategy taking
+in account the game situation.
+
+
+Any kind of discriminatory language such as using slurs is strictly not
+allowed. This rule applies everywhere in SendouQ including (but not
+limited to) text chats, voice chats & in-game names.
+
+
+Players found breaking the rules can lose access to SendouQ and other
+sendou.ink features such as tournaments and the Plus Server.
+      `
+  return [
+    { title: makeTitle("SendouQ Rules") },
+    { name: "description", content: description },
+    { property: "og:description", content: description },
+];
 };
 
 export default function SendouqRules() {
@@ -20,7 +91,7 @@ export default function SendouqRules() {
             at the time of the DC)
           </li>
           <li>
-            The team without DC&apos;s objective counter had reached 30 at the
+            The team without DC's objective counter had reached 30 at the
             time of the disconnect
           </li>
           <li>Team with the disconnection stopped playing without delay</li>
@@ -28,12 +99,12 @@ export default function SendouqRules() {
         </ol>
         For the replay same weapons and gear must be used by both teams. The
         team who fails to do so loses the map. If players disconnect from both
-        teams a replay can be played without using either team&apos;s one replay
+        teams a replay can be played without using either team's one replay
         for the set (or even if there were no replays left to use from either
         team). Host disconnection can be replayed with the same conditions as
         above.
         <br />
-        <br /> After the DC replay has been used by the team, further DC&apos;s
+        <br /> After the DC replay has been used by the team, further DC's
         should be played out.
       </div>
 
@@ -46,7 +117,7 @@ export default function SendouqRules() {
       <h2 className="text-lg mt-4">Canceling match</h2>
       <div>
         Match can be canceled if both group owners agree. If the groups
-        don&apos;t agree then the match should be played out.
+        don't agree then the match should be played out.
       </div>
 
       <h2 className="text-lg mt-4">Alting</h2>
@@ -78,13 +149,13 @@ export default function SendouqRules() {
       <div>
         Players are not allowed to intentionally lose a match. This includes
         (but is not limited to) tanking your own rank on purpose or boosting
-        another player&apos;s/team&apos;s ranking.
+        another player's/team's ranking.
       </div>
 
       <h2 className="text-lg mt-4">Unsportsmanlike conduct</h2>
       <div>
-        It&apos;s not allowed to spawncamp the enemy without pushing the
-        objective provided it can&apos;t be considered a viable strategy taking
+        It's not allowed to spawncamp the enemy without pushing the
+        objective provided it can't be considered a viable strategy taking
         in account the game situation.
       </div>
 
