@@ -64,7 +64,32 @@ export const meta: V2_MetaFunction = (args) => {
 
   if (!data) return [];
 
-  return [{ title: makeTitle(data.vod.title) }];
+  console.log("vod data", data.vod)
+  //TODO: replace stage and weapon id with weapon name
+  let description = `
+  ${data.vod.matches.length} ${data.vod.matches.length < 1 ? "match was" : "matches were"} played.
+  
+  ${data.vod.matches.map( (match) => {
+
+    return `${match.mode} ${match.stageId}. Weapons used: ${match.weapons.map((weapon)  =>{
+
+      return weapon
+
+    }).join(', ')}. `
+
+  }).join('')}
+  `
+  
+  return [
+    { title: makeTitle(data.vod.title) },
+    { property: "og:title", content: data.vod.title },
+    { name: "description", content: description },
+    { property: "og:description", content: description },
+    { name: "twitter:card", content: "summary_large_image" },
+    { property: "og:image", content: `https://img.youtube.com/vi/${data.vod.youtubeId}/0.jpg` },
+    { property: "og:type", content: "article" },
+    { property: "og:site_name", content: "sendou.ink" },
+  ];
 };
 
 export const loader = ({ params }: LoaderArgs) => {
