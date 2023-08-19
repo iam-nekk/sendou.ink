@@ -55,9 +55,17 @@ export const meta: V2_MetaFunction = ({
 }) => {
   if (!data) return [];
 
+  let description = `${data.team.bio}`
+
   return [
     { title: makeTitle(data.team.name) },
-    { name: "description", content: data.team.bio },
+    { property: "og:title", content: data.team.name },
+    { name: "description", content: description },
+    { property: "og:description", content: description },
+    { name: "twitter:card", content: "summary" },
+    { property: "og:image", content: data.team.bannerSrc ? userSubmittedImage(data.team.bannerSrc) : "" }, //userSubmittedImage cant use undefined properties 
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "sendou.ink" }
   ];
 };
 
