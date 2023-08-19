@@ -64,11 +64,8 @@ export const meta: V2_MetaFunction = (args) => {
 
   if (!data) return [];
 
-  console.log("vod data", data.vod)
   //TODO: replace stage and weapon id with weapon name
-  let description = `
-  ${data.vod.matches.length} ${data.vod.matches.length < 1 ? "match was" : "matches were"} played.
-  
+  let description = `${data.vod.matches.length} ${data.vod.matches.length < 1 ? "match was" : "matches were"} played.
   ${data.vod.matches.map( (match) => {
 
     return `${match.mode} ${match.stageId}. Weapons used: ${match.weapons.map((weapon)  =>{
