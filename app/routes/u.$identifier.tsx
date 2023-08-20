@@ -36,6 +36,8 @@ import {
   userSeasonsPage,
 } from "~/utils/urls";
 
+// const location = useLocation()
+
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
@@ -57,7 +59,7 @@ export const meta: V2_MetaFunction = ({
     let weaponName = t(`weapons:MAIN_${weapon.weaponSplId}`)
     return weapon.isFavorite ? "⭐" + weaponName : weaponName
   }).join(', ')}. \n`
-  if (data.topPlacements) description += `Top placements: \n`
+  if (data.topPlacements.SZ || data.topPlacements.TC||data.topPlacements.RM||data.topPlacements.CB||data.topPlacements.TW) description += `Top placements: \n`
   if (data.topPlacements.SZ) description += `- SZ: ${data.topPlacements.SZ.rank}/${data.topPlacements.SZ.power}\n`
   if (data.topPlacements.TC) description += `- TC: ${data.topPlacements.TC.rank}/${data.topPlacements.TC.power}\n`
   if (data.topPlacements.RM) description += `- RM: ${data.topPlacements.RM.rank}/${data.topPlacements.RM.power}\n`
@@ -67,15 +69,13 @@ export const meta: V2_MetaFunction = ({
   if (data.twitter) description += `- Twitter: twitter.com/${data.twitter}\n`
   if (data.twitch) description += `- Twitch: twitch.tv/${data.twitch}\n`
   if (data.youtubeId) description += `- Youtube: youtube.com/channel/${data.youtubeId}\n`
-
-  console.log("current url ", useLocation())
   console.log(description)
   return [
     { title: makeTitle(discordFullName(data)) },
     { property: "og:title", content: ""},
     { name: "description", content: description },
     { property: "og:description", content: description },
-    { property: "og:url", content: `https://sendou.ink${useLocation().pathname}` },
+    { property: "og:url", content: `https://sendou.ink${data.id}` },
     { name: "twitter:card", content: "summary" },
     { property: "og:image", content: ""}, 
     { property: "og:type", content: "profile" },
