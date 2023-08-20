@@ -74,6 +74,7 @@ export const meta: V2_MetaFunction = () => {
       content:
         "Competitive Splatoon Hub featuring gear planner, event calendar, builds by top players, and more!",
     },
+    { property: "og:image", content: {COMMON_PREVIEW_IMAGE}}, 
   ];
 };
 
@@ -171,7 +172,8 @@ function Document({
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="theme-color" content="#010115" />
-        <meta property="og:image" content={COMMON_PREVIEW_IMAGE} />
+        
+        {/*<meta property="og:image" content={COMMON_PREVIEW_IMAGE} />*/}
         <Meta />
         <Links />
         <ThemeHead />

@@ -48,14 +48,17 @@ export const meta: V2_MetaFunction = ({
   data: UserPageLoaderData;
 }) => {
   if (!data) return [];
-  console.log(data)
+  //console.log(data)
+
+  const {t} = useTranslation(['weapons','game-misc'])
+
+  let title = makeTitle(discordFullName(data))
 
   let description = ""
   if (data.inGameName) description += `IGN: ${data.inGameName}\n`
   if (data.bio) description += data.bio + " \n"
   if (data.team) description += `Member of ${data.team.name}. \n`
   if (data.weapons) description += `Weapon pool: ${data.weapons.map((weapon)=>{
-    const {t} = useTranslation(['common'])
     let weaponName = t(`weapons:MAIN_${weapon.weaponSplId}`)
     return weapon.isFavorite ? "⭐" + weaponName : weaponName
   }).join(', ')}. \n`
@@ -69,17 +72,19 @@ export const meta: V2_MetaFunction = ({
   if (data.twitter) description += `- Twitter: twitter.com/${data.twitter}\n`
   if (data.twitch) description += `- Twitch: twitch.tv/${data.twitch}\n`
   if (data.youtubeId) description += `- Youtube: youtube.com/channel/${data.youtubeId}\n`
-  console.log(description)
+  //console.log(description)
+  
   return [
-    { title: makeTitle(discordFullName(data)) },
-    { property: "og:title", content: ""},
+    { title: title },
+    { property: "og:title", content: title},
+    { property:"twitter:text:title", content: title},
     { name: "description", content: description },
     { property: "og:description", content: description },
     { property: "og:url", content: `https://sendou.ink${data.id}` },
     { name: "twitter:card", content: "summary" },
-    { property: "og:image", content: ""}, 
+    { property: "og:image", content: `https://cdn.discordapp.com/avatars/${data.discordId}/${data.discordAvatar}.webp?size=600`}, 
     { property: "og:type", content: "profile" },
-    { property: "profile:username", content: "username" },
+    { property: "profile:username", content: data.discordName },
     { property: "og:site_name", content: "sendou.ink" }
   ];
 };
