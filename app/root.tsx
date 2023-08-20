@@ -74,7 +74,7 @@ export const meta: V2_MetaFunction = () => {
       content:
         "Competitive Splatoon Hub featuring gear planner, event calendar, builds by top players, and more!",
     },
-    { property: "og:image", content: {COMMON_PREVIEW_IMAGE}}, 
+    { property: "og:image", content: COMMON_PREVIEW_IMAGE}, 
   ];
 };
 
