@@ -46,8 +46,42 @@ export const meta: V2_MetaFunction = ({
   data: UserPageLoaderData;
 }) => {
   if (!data) return [];
+  console.log(data)
 
-  return [{ title: makeTitle(discordFullName(data)) }];
+  let description = ""
+  if (data.inGameName) description += `IGN: ${data.inGameName}\n`
+  if (data.bio) description += data.bio + " \n"
+  if (data.team) description += `Member of ${data.team.name}. \n`
+  if (data.weapons) description += `Weapon pool: ${data.weapons.map((weapon)=>{
+    const {t} = useTranslation(['common'])
+    let weaponName = t(`weapons:MAIN_${weapon.weaponSplId}`)
+    return weapon.isFavorite ? "⭐" + weaponName : weaponName
+  }).join(', ')}. \n`
+  if (data.topPlacements) description += `Top placements: \n`
+  if (data.topPlacements.SZ) description += `- SZ: ${data.topPlacements.SZ.rank}/${data.topPlacements.SZ.power}\n`
+  if (data.topPlacements.TC) description += `- TC: ${data.topPlacements.TC.rank}/${data.topPlacements.TC.power}\n`
+  if (data.topPlacements.RM) description += `- RM: ${data.topPlacements.RM.rank}/${data.topPlacements.RM.power}\n`
+  if (data.topPlacements.CB) description += `- CB: ${data.topPlacements.CB.rank}/${data.topPlacements.CB.power}\n`
+  if (data.topPlacements.TW) description += `- TW: ${data.topPlacements.TW.rank}/${data.topPlacements.TW.power}\n`
+  if (data.twitter || data.twitch || data.youtubeId) description += "Socials: \n"
+  if (data.twitter) description += `- Twitter: twitter.com/${data.twitter}\n`
+  if (data.twitch) description += `- Twitch: twitch.tv/${data.twitch}\n`
+  if (data.youtubeId) description += `- Youtube: youtube.com/channel/${data.youtubeId}\n`
+
+  console.log("current url ", useLocation())
+  console.log(description)
+  return [
+    { title: makeTitle(discordFullName(data)) },
+    { property: "og:title", content: ""},
+    { name: "description", content: description },
+    { property: "og:description", content: description },
+    { property: "og:url", content: `https://sendou.ink${useLocation().pathname}` },
+    { name: "twitter:card", content: "summary" },
+    { property: "og:image", content: ""}, 
+    { property: "og:type", content: "profile" },
+    { property: "profile:username", content: "username" },
+    { property: "og:site_name", content: "sendou.ink" }
+  ];
 };
 
 export const handle: SendouRouteHandle = {
