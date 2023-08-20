@@ -64,13 +64,14 @@ export const meta: V2_MetaFunction = (args) => {
 
   if (!data) return [];
 
-  //TODO: replace stage and weapon id with weapon name
+  const {t} = useTranslation(["common"])
+
   let description = `${data.vod.matches.length} ${data.vod.matches.length < 1 ? "match was" : "matches were"} played.
   ${data.vod.matches.map( (match) => {
+    let stageName = t(`game-misc:STAGE_${match.stageId}`)
+    return `${match.mode} ${stageName}. Weapons used: ${match.weapons.map((weapon)  =>{
 
-    return `${match.mode} ${match.stageId}. Weapons used: ${match.weapons.map((weapon)  =>{
-
-      return weapon
+      return t(`weapons:MAIN_${weapon}`)
 
     }).join(', ')}. `
 
