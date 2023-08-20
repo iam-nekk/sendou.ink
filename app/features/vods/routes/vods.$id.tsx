@@ -64,7 +64,7 @@ export const meta: V2_MetaFunction = (args) => {
 
   if (!data) return [];
 
-  const {t} = useTranslation(["common"])
+  const {t} = useTranslation(["game-misc","weapons"])
 
   let description = `${data.vod.matches.length} ${data.vod.matches.length < 1 ? "match was" : "matches were"} played.
   ${data.vod.matches.map( (match) => {
