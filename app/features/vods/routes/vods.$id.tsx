@@ -85,7 +85,7 @@ export const meta: V2_MetaFunction = (args) => {
     { property: "og:description", content: description },
     { name: "twitter:card", content: "summary_large_image" },
     { property: "og:image", content: `https://img.youtube.com/vi/${data.vod.youtubeId}/0.jpg` },
-    { property: "og:type", content: "article" },
+    { property: "og:type", content: "website" },
     { property: "og:site_name", content: "sendou.ink" },
   ];
 };
