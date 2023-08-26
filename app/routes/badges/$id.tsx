@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, SerializeFrom, V2_MetaFunction } from "@remix-run/node";
 import { Outlet, useLoaderData, useMatches, useParams } from "@remix-run/react";
 import clsx from "clsx";
 import { Badge } from "~/components/Badge";
@@ -13,12 +13,16 @@ import {
 import { type Badge as BadgeDBType } from "~/db/types";
 import { useUser } from "~/modules/auth";
 import { canEditBadgeOwners } from "~/permissions";
-import { discordFullName } from "~/utils/strings";
-import { BADGES_PAGE } from "~/utils/urls";
+import { discordFullName, makeTitle } from "~/utils/strings";
+import { BADGES_PAGE, badgeUrl } from "~/utils/urls";
 import { type BadgesLoaderData } from "../badges";
 import { type TFunction } from "react-i18next";
 import { useTranslation } from "~/hooks/useTranslation";
 import { SPLATOON_3_XP_BADGE_VALUES } from "~/constants";
+
+// he will be defined in BadgeDetailsPage()
+// i need him here for the meta tags
+//let badge: Pick<BadgeDBType, "code" | "id" | "displayName" | "hue"> | undefined
 
 export interface BadgeDetailsContext {
   badgeName: string;
@@ -40,6 +44,48 @@ export const loader: LoaderFunction = ({ params }) => {
     managers: db.badges.managersByBadgeId(badgeId),
   });
 };
+
+export const meta: V2_MetaFunction = (args) => {
+  const data = args.data as SerializeFrom<typeof loader> | null;
+
+  const { badge, t} = getBadgesData();
+
+
+  if (!data) return [];
+  if (!badge) return [];
+
+  console.log(badge)
+
+
+  const explanationText = badgeExplanationText(t, badge)
+
+  let title = makeTitle(badge.displayName + " badge.")
+
+  let description = explanationText + ". \n"
+  description += `Managed by `
+  description += data.managers.map((manager: { discordName: string; discordDiscriminator: string; })=>{
+    return manager.discordName + "#" + manager.discordDiscriminator
+  }).join(", ")
+  description += "\n"
+
+  description += `Owned by: `
+  description += data.owners.map((owner: { discordName: any; discordDiscriminator: any; count: number; })=>{
+    return `${owner.discordName}#${owner.discordDiscriminator} ${owner.count > 1 ? `(${owner.count})`: ""}`
+  }).join(", ")
+  description += "\n"
+  
+  return [
+    { title: title },
+    { property: "og:title", content: title},
+    { property:"twitter:text:title", content: title},
+    { name: "description", content: description },
+    { property: "og:description", content: description },
+    { name: "twitter:card", content: "summary_large_image" },
+    { property: "og:image", content: `https://sendou.ink${badgeUrl({code: badge.code, extension: "gif"})}` },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "sendou.ink" },
+  ];
+}
 
 export default function BadgeDetailsPage() {
   const user = useUser();
@@ -95,6 +141,17 @@ export default function BadgeDetailsPage() {
       </div>
     </div>
   );
+}
+
+export function getBadgesData(){
+  const [, parentRoute] = useMatches();
+  const { badges } = parentRoute.data as BadgesLoaderData;
+  const params = useParams();
+  const data = useLoaderData<BadgeDetailsLoaderData>();
+  const { t } = useTranslation("badges");
+  const badge = badges.find((b) => b.id === Number(params["id"]));
+
+  return {badge, data, t, badges}
 }
 
 export function badgeExplanationText(
