@@ -66,7 +66,7 @@ export const meta: V2_MetaFunction = (args) => {
 
   const {t} = useTranslation(["game-misc","weapons"])
 
-  let description = `${data.vod.matches.length} ${data.vod.matches.length < 1 ? "match was" : "matches were"} played.
+  /*let description = `${data.vod.matches.length} ${data.vod.matches.length < 1 ? "match was" : "matches were"} played.
   ${data.vod.matches.map( (match) => {
     let stageName = t(`game-misc:STAGE_${match.stageId}`)
     return `${match.mode} ${stageName}. Weapons used: ${match.weapons.map((weapon)  =>{
@@ -77,7 +77,20 @@ export const meta: V2_MetaFunction = (args) => {
 
   }).join('')}
   `
-  
+  */
+
+  let description = ""
+
+  description += `${data.vod.matches.length} ${data.vod.matches.length < 1 ? "match was" : "matches were"} played.\n`
+  for (let match of data.vod.matches) {
+    description += ` - ${match.mode} ${t(`game-misc:STAGE_${match.stageId}`)} \n`
+    description += `   The following ${match.weapons.length > 1 ? "weapons were":"weapon was"} played: `
+    description += match.weapons.map((weapon)=>{
+      return t(`weapons:MAIN_${weapon}`)
+    }).join(", ")
+    description += "\n"
+  }
+
   return [
     { title: makeTitle(data.vod.title) },
     { property: "og:title", content: data.vod.title },
