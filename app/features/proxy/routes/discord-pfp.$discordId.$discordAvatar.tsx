@@ -8,5 +8,10 @@ export async function loader({ params }: LoaderArgs) {
     //console.log("Request object", newRequest)
     const fetchReq = await fetch(newRequest);
     //console.log("Fetch Request ", fetchReq)
-    return fetchReq
+    return new Response(fetchReq.body, {
+        status: fetchReq.status,
+        headers:{
+            "Content-Type": "image/webp"
+        }
+    })
 }
