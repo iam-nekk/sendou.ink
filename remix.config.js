@@ -6,6 +6,7 @@ module.exports = {
   cacheDirectory: process.env.NODE_ENV === "test" ? ".cache-test" : undefined,
   routes: async (defineRoutes) => {
     return defineRoutes((route) => {
+      route("/proxy/discord-pfp/:discordId/:discordAvatar", "features/proxy/routes/discord-pfp.$discordId.$discordAvatar.tsx");
       route("/upload", "features/img-upload/routes/upload.tsx");
       route("/upload/admin", "features/img-upload/routes/upload.admin.tsx");
       route("/plans", "features/map-planner/routes/plans.tsx");

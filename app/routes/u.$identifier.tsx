@@ -82,7 +82,7 @@ export const meta: V2_MetaFunction = ({
     { property: "og:description", content: description },
     { property: "og:url", content: `https://sendou.ink${data.id}` },
     { name: "twitter:card", content: "summary" },
-    { property: "og:image", content: `https://cdn.discordapp.com/avatars/${data.discordId}/${data.discordAvatar}.webp?size=600`}, 
+    { property: "og:image", content: `https://sendou.ink/proxy/discord-pfp/${data.discordId}/${data.discordAvatar}`}, 
     { property: "og:type", content: "profile" },
     { property: "profile:username", content: data.discordName },
     { property: "og:site_name", content: "sendou.ink" }
