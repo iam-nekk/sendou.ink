@@ -20,6 +20,7 @@ import {
 import { i18next } from "~/modules/i18n";
 import { makeTitle } from "~/utils/strings";
 import { useTranslation } from "~/hooks/useTranslation";
+import { monthYearToSpan } from "../top-search-utils";
 
 export const handle: SendouRouteHandle = {
   breadcrumb: ({ match }) => {
@@ -53,12 +54,30 @@ export const meta: V2_MetaFunction = (args) => {
 
   if (!data) return [];
 
+  let description = `Top placements for ${data.placements[0].name}: \n`
+
+  //console.log(data)
+
+  for (let placement of data.placements){
+    description += ` - ${placement.rank}/${placement.power} `
+    description += `in ${placement.region === "WEST" ? "Tentatek Division": "Takoroka Division"}: `
+    description += `${placement.mode} `
+    description += `using ${placement.weaponSplId} `
+    description += `(${monthYearToSpan(placement).from.month}/${monthYearToSpan(placement).from.year} - ${monthYearToSpan(placement).to.month}/${monthYearToSpan(placement).to.year})`
+    
+    description += "\n"
+  }
+
   return [
     { title: data.title },
-    {
-      name: "description",
-      content: `Splatoon 3 X Battle for the player ${data.placements[0]!.name}`,
-    },
+    { property: "og:title", content: data.title},
+    { property:"twitter:text:title", content: data.title},
+    { name: "description", content: description },
+    { property: "og:description", content: description },
+    { property: "og:url", content: `https://sendou.ink/` },
+    { name: "twitter:card", content: "summary" },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "sendou.ink" }
   ];
 };
 
